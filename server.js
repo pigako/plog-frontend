@@ -10,7 +10,19 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
     const server = express();
 
-    server.use(morgan("dev"));
+    server.use(
+        morgan("dev", {
+            skip: (req, res) => {
+                if (req.hostname == "hc.check") {
+                    return true;
+                }
+
+                if (req.url.slice(0, 6) == "/_next") {
+                    return true;
+                }
+            }
+        })
+    );
 
     server.get("/", (req, res) => {
         if (req.hostname == "hc.check") {
