@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Post = () => {
-    const { pathname, query } = useRouter();
+    const { query } = useRouter();
 
-    useEffect(() => {
-        console.log(pathname);
-    }, []);
+    useEffect(() => {}, []);
 
     return <a>{query.id}</a>;
 };
+
+Post.getInitialProps = async (context) => {};
 
 export default Post;

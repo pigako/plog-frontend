@@ -3,7 +3,7 @@ import Head from "next/head";
 import GlobalStyles from "../components/designs/GlobalStyles";
 import Layout from "../components/Layout";
 
-function MyApp({ Component, pageProps }) {
+function Plog({ Component, pageProps }) {
     return (
         <>
             <Head>
@@ -18,4 +18,15 @@ function MyApp({ Component, pageProps }) {
     );
 }
 
-export default MyApp;
+Plog.getInitialProps = async (context) => {
+    const { ctx, Component } = context;
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+        pageProps = (await Component.getInitialProps(ctx)) || {};
+    }
+
+    return { pageProps };
+};
+
+export default Plog;

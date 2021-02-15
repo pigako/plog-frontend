@@ -1,0 +1,14 @@
+{
+    "steps": [
+        {
+            "name": "gcr.io/cloud-builders/docker",
+            "args": ["build", "-t", "asia.gcr.io/pigako-blog/default/blog:${_CLOUDRUNSTAMP}", "-t", "asia.gcr.io/pigako-blog/default/blog:latest", "--build-arg", "APP_NAME=blog", "."]
+        },
+        {
+            "name": "gcr.io/cloud-builders/docker",
+            "args": ["push", "asia.gcr.io/pigako-blog/default/blog:${_CLOUDRUNSTAMP}"]
+        }
+    ],
+    "logsBucket": "gs://pigako-blog_cloudbuild",
+    "images": ["asia.gcr.io/pigako-blog/default/blog:latest"]
+}
