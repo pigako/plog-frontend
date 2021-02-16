@@ -24,26 +24,40 @@ app.prepare().then(() => {
         })
     );
 
-    server.get("/", (req, res) => {
+    server.use((req, res, next) => {
         if (req.hostname == "hc.check") {
-            res.send("200 OK");
+            return res.send("200 OK");
         }
+
+        next();
     });
 
-    server.get("/blog/post/:id", (req, res) => {
-        const query = Object.assign(req.query, {
-            id: req.params.id
-        });
+    server.use(
+        "/blog",
+        (() => {
+            const router = express.Router();
 
-        return app.render(req, res, "/post", query);
-    });
+            router.get("/post/:id", (req, res) => {
+                const query = Object.assign(req.query, {
+                    id: req.params.id
+                });
 
-    server.get("/blog/*", (req, res) => {
-        const path = req.url.slice(5, req.url.length + 1);
-        return app.render(req, res, path, req.query);
-    });
+                console.log("Hello");
 
-    server.all("*", (req, res) => {
+                return app.render(req, res, "/post", query);
+            });
+
+            router.get("*", (req, res) => {
+                const path = req.url.slice(5, req.url.length + 1);
+
+                return app.render(req, res, path || "/", req.query);
+            });
+
+            return router;
+        })()
+    );
+
+    server.get("*", (req, res) => {
         return handle(req, res);
     });
 
