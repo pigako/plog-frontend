@@ -42,15 +42,11 @@ app.prepare().then(() => {
                     id: req.params.id
                 });
 
-                console.log("Hello");
-
                 return app.render(req, res, "/post", query);
             });
 
             router.get("*", (req, res) => {
-                const path = req.url.slice(5, req.url.length + 1);
-
-                return app.render(req, res, path || "/", req.query);
+                return app.render(req, res, req.url || "/", req.query);
             });
 
             return router;
