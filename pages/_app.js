@@ -20,22 +20,4 @@ function Plog({ Component, pageProps }) {
     );
 }
 
-Plog.getInitialProps = async (context) => {
-    const { ctx, Component } = context;
-    let pageProps = {};
-
-    const state = ctx.store.getState();
-    const cookie = ctx.isServer ? ctx.req.headers.cookie : "";
-
-    if (ctx.isServer && cookie) {
-        axios.defaults.headers.Cookie = cookie;
-    }
-
-    if (Component.getInitialProps) {
-        pageProps = (await Component.getInitialProps(ctx)) || {};
-    }
-
-    return { pageProps };
-};
-
 export default wrapper.withRedux(Plog);

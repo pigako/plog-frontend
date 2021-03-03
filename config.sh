@@ -7,7 +7,7 @@
 echo "\x1B[93m[[ get config ]]\x1B[0m"
 
 CLOUDRUNSTAMP=`date '+%Y%m%d%H%M%S'`
-PROJECT_ID="plog-2021-02-25"
+PROJECT_ID="plog-2021-03-03"
 APP_NAME="blog"
 ZONE="asia-northeast3-b"
 REGIONS_NAME="seoul"

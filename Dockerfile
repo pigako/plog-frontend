@@ -15,6 +15,8 @@ COPY package-lock.json .
 RUN npm install
 RUN npm audit fix
 
+ENV NODE_ENV production
+
 # 앱 소스 추가
 COPY ./ .
 
