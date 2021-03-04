@@ -17,9 +17,9 @@ app.prepare().then(() => {
                     return true;
                 }
 
-                if (req.url.slice(0, 6) == "/_next") {
-                    return true;
-                }
+                // if (req.url.slice(0, 6) == "/_next") {
+                //     return true;
+                // }
             }
         })
     );

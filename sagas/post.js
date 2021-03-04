@@ -9,11 +9,11 @@ function* watchLoadPosts() {
                 return axios.get(`/posts`, {
                     withCredentials: true
                 });
-            }, action.keyword);
+            }, action.data.keyword);
 
             yield put({
                 type: LOAD_POSTS_SUCCESS,
-                data: result
+                data: result.data.posts
             });
         } catch (error) {
             console.log(error);

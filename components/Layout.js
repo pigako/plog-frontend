@@ -9,33 +9,26 @@ const Screen = styled.div`
 `;
 
 const Contents = styled.div`
-    margin-top: 50px;
     width: 97%;
-    margin: 60px auto;
+    margin: 100px auto;
 `;
 
 const LeftContent = styled.div`
     width: 20%;
     height: 100px;
     float: left;
-
-    border: solid 1px #000;
 `;
 
 const RightContent = styled.div`
     width: 20%;
     height: 100px;
     float: right;
-
-    border: solid 1px #000;
 `;
 
 const MainContent = styled.div`
     width: 60%;
     height: 100px;
     float: left;
-
-    border: solid 1px #000;
 `;
 
 const Layout = ({ children }) => {
