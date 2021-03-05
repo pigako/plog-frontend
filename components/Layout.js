@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
 import Header from "./Header";
+import Login from "./Login";
+import { useSelector } from "react-redux";
 
 const Screen = styled.div`
     height: 100%;
@@ -33,12 +35,15 @@ const MainContent = styled.div`
 
 const Layout = ({ children }) => {
     const { pathname } = useRouter();
+    const { user, isLoggedIn } = useSelector((state) => state.user);
+
+    useEffect(() => {}, [user, isLoggedIn]);
 
     return (
         <Screen>
             <Header />
             <Contents>
-                <LeftContent>{pathname && pathname.slice(0, 5) === "/post" ? "Thumbs Up" : "Category"}</LeftContent>
+                <LeftContent>{isLoggedIn ? user : <Login />}</LeftContent>
                 <MainContent>{children}</MainContent>
                 <RightContent></RightContent>
             </Contents>
