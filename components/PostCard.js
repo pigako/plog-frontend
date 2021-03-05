@@ -11,7 +11,7 @@ const Card = styled.div`
     margin: 5px auto;
 
     & :hover {
-        border: solid 1px skyblue;
+        border: solid 1px #339af0;
 
         transition: 0.3s ease-in-out;
     }
