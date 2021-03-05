@@ -9,6 +9,17 @@ const Card = styled.div`
     cursor: pointer;
 
     margin: 5px auto;
+
+    & :hover {
+        border: solid 1px skyblue;
+
+        transition: 0.3s ease-in-out;
+    }
+
+    & + & {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 `;
 
 const CardHeader = styled.a`
@@ -50,7 +61,7 @@ const PostCard = ({ post }) => {
             <CardHeader>{post.title}</CardHeader>
             <CardContents>{post.contents}</CardContents>
             <CardInfo>
-                작성일: {new Date(post.createdAt).toLocaleDateString()} | 조회: {post.lookup} | 댓글: {post.comments?.length}
+                작성일: {new Date(post.createdAt).toLocaleDateString("ko", { hour: "numeric", minute: "numeric" })} | 조회: {post.lookup} | 댓글: {post.comments?.length}
             </CardInfo>
         </Card>
     );
