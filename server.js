@@ -1,11 +1,17 @@
 const express = require("express");
 const next = require("next");
 const morgan = require("morgan");
+const path = require("path");
 
+const cookieParser = require("cookie-parser");
+const expressSession = require("express-session");
+const dotenv = require("dotenv");
 const port = process.env.NODE_ENV === "production" ? 80 : 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+dotenv.config(process.env.NODE_ENV === "production" ? ".env.production" : ".env.dev");
 
 app.prepare().then(() => {
     const server = express();
@@ -23,6 +29,8 @@ app.prepare().then(() => {
             }
         })
     );
+
+    server.use(express.static(path.join(__dirname, "public")));
 
     server.use((req, res, next) => {
         if (req.hostname == "hc.check") {
