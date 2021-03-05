@@ -2,6 +2,7 @@ import { HYDRATE } from "next-redux-wrapper";
 import { combineReducers } from "redux";
 
 import post from "./post";
+import user from "./user";
 
 // (이전상태, 액션) => 다음상태
 const rootReducer = (state, action) => {
@@ -11,7 +12,8 @@ const rootReducer = (state, action) => {
             return action.payload;
         default: {
             const combinedReducer = combineReducers({
-                post
+                post,
+                user
             });
             return combinedReducer(state, action);
         }
