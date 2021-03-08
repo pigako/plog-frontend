@@ -10,6 +10,10 @@ export const USER_LOGIN_REQUEST = `USER_LOGIN_REQUEST`;
 export const USER_LOGIN_SUCCESS = `USER_LOGIN_SUCCESS`;
 export const USER_LOGIN_FAILURE = `USER_LOGIN_FAILURE`;
 
+export const LOAD_USERINFO_REQUEST = `LOAD_USERINFO_REQUEST`;
+export const LOAD_USERINFO_SUCCESS = `LOAD_USERINFO_SUCCESS`;
+export const LOAD_USERINFO_FAILURE = `LOAD_USERINFO_FAILURE`;
+
 const reduce = (state = initialState, action) => {
     return produce(state, (draft) => {
         switch (action.type) {
@@ -26,6 +30,16 @@ const reduce = (state = initialState, action) => {
             case USER_LOGIN_FAILURE:
                 draft.isLoggingIn = false;
                 draft.isLoggedIn = false;
+                break;
+
+            case LOAD_USERINFO_REQUEST:
+                draft.user = {};
+                break;
+            case LOAD_USERINFO_SUCCESS:
+                draft.user = action.data;
+                break;
+            case LOAD_USERINFO_FAILURE:
+                draft.user = {};
                 break;
         }
     });

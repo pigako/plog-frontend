@@ -1,6 +1,6 @@
 import { all, fork, takeLatest, call, put } from "redux-saga/effects";
 import axios from "axios";
-import { USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE } from "../reducers/user";
+import { USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAILURE, LOAD_USERINFO_REQUEST } from "../reducers/user";
 
 function* watchUserLogin() {
     yield takeLatest(USER_LOGIN_REQUEST, function* userLogin(action) {
@@ -22,6 +22,16 @@ function* watchUserLogin() {
             put({
                 type: USER_LOGIN_FAILURE,
                 error: error
+            });
+        }
+    });
+}
+
+function* watchLoadUserInfo() {
+    yield takeLatest(LOAD_USERINFO_REQUEST, function* loadUser(action) {
+        try {
+            const result = yield call(() => {
+                return axios.get(`/user/`);
             });
         }
     });
