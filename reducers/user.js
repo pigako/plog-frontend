@@ -34,12 +34,18 @@ const reduce = (state = initialState, action) => {
 
             case LOAD_USERINFO_REQUEST:
                 draft.user = {};
+                draft.isLoggingIn = true;
+                draft.isLoggedIn = false;
                 break;
             case LOAD_USERINFO_SUCCESS:
                 draft.user = action.data;
+                draft.isLoggingIn = false;
+                draft.isLoggedIn = true;
                 break;
             case LOAD_USERINFO_FAILURE:
                 draft.user = {};
+                draft.isLoggingIn = false;
+                draft.isLoggedIn = false;
                 break;
         }
     });

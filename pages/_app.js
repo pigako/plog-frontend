@@ -4,6 +4,7 @@ import GlobalStyles from "../components/designs/GlobalStyles";
 import Layout from "../components/Layout";
 import axios from "axios";
 import wrapper from "../store/configureStore";
+import { LOAD_USERINFO_REQUEST } from "../reducers/user";
 
 function Plog({ Component, pageProps }) {
     return (
@@ -26,6 +27,11 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     axios.defaults.headers.Cookie = "";
     if (context.req && cookie) {
         axios.defaults.headers.Cookie = cookie;
+
+        context.store.dispatch({
+            type: LOAD_USERINFO_REQUEST
+        });
+        context.store.dispatch(END);
     }
 
     await context.store.sagaTask.toPromise();

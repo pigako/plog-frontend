@@ -17,6 +17,7 @@ const LoginForm = styled.form`
 const Label = styled.label`
     display: inline-block;
     margin-bottom: 10px;
+    margin-right: 20px;
 `;
 
 const Input = styled.input`
