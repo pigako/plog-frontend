@@ -43,7 +43,7 @@ const Layout = ({ children }) => {
         <Screen>
             <Header />
             <Contents>
-                <LeftContent>{isLoggedIn ? user : <Login />}</LeftContent>
+                <LeftContent>{isLoggedIn ? user.userId : <Login />}</LeftContent>
                 <MainContent>{children}</MainContent>
                 <RightContent></RightContent>
             </Contents>

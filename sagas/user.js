@@ -15,7 +15,7 @@ function* watchUserLogin() {
 
             yield put({
                 type: USER_LOGIN_SUCCESS,
-                data: result.data.userId
+                data: result.data.user
             });
         } catch (error) {
             console.log(error);
@@ -40,11 +40,10 @@ function* watchLoadUserInfo() {
 
             yield put({
                 type: LOAD_USERINFO_SUCCESS,
-                data: result.data
+                data: result.data.user
             });
         } catch (error) {
-            console.error(error);
-            put({
+            yield put({
                 type: LOAD_USERINFO_FAILURE,
                 error: error
             });

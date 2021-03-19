@@ -1,17 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
 import axios from "axios";
 import { LOAD_POST_REQUEST } from "../reducers/post";
 import wrapper from "../store/configureStore";
 import { END } from "redux-saga";
 
 const Post = () => {
-    const { query } = useRouter();
-    const id = query.id;
     const { post } = useSelector((state) => state.post);
-
-    useEffect(() => {}, []);
 
     return <a>{post.title}</a>;
 };

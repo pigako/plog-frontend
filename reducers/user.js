@@ -38,11 +38,13 @@ const reduce = (state = initialState, action) => {
                 draft.isLoggedIn = false;
                 break;
             case LOAD_USERINFO_SUCCESS:
+                console.log(`reducer`, action.data);
                 draft.user = action.data;
                 draft.isLoggingIn = false;
                 draft.isLoggedIn = true;
                 break;
             case LOAD_USERINFO_FAILURE:
+                console.log("LOGIN_FAIL");
                 draft.user = {};
                 draft.isLoggingIn = false;
                 draft.isLoggedIn = false;

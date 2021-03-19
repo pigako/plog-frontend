@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import Button from "./designs/Button";
+import { useSelector } from "react-redux";
 
 const Menu = styled.header`
     position: fixed;
@@ -43,6 +44,10 @@ const Item = styled.li`
         align-items: center;
         justify-content: center;
     }
+`;
+
+const UserIdDiv = styled.div`
+    width: 25%;
 `;
 
 const SearchForm = styled.form`
@@ -90,6 +95,7 @@ const Header = () => {
     const { pathname } = useRouter();
 
     const [searchText, setSearchText] = useState("");
+    const { user } = useSelector((state) => state.user);
 
     const onChangeSearchText = useCallback((e) => {
         setSearchText(e.target.value);
@@ -112,6 +118,11 @@ const Header = () => {
                     </Link>
                 </Item>
             </List>
+            {user?.userId && (
+                <UserIdDiv>
+                    <a>Welcome {user.userId}</a>
+                </UserIdDiv>
+            )}
             <SearchForm onSubmit={onSubmitSearch}>
                 <a>Search</a>
                 <SearchInput value={searchText} onChange={onChangeSearchText}></SearchInput>
