@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import Button from "./designs/Button";
 import { useSelector, useDispatch } from "react-redux";
@@ -51,6 +52,7 @@ const Login = () => {
         password: ""
     });
     const { userId, password } = inputs;
+    const router = useRouter();
 
     const onChangeInputs = useCallback(
         (e) => {
@@ -73,6 +75,11 @@ const Login = () => {
         });
     });
 
+    const googleLoginUri =
+        process.env.NODE_ENV === "production"
+            ? "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=https://www.pigako.com/api/v1/auth/google/callback&response_type=code&client_id=124179859179-phbj0e3lqu096322h75m22p6peidi2sg.apps.googleusercontent.com"
+            : "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http://localhost:4000/api/v1/auth/google/callback&response_type=code&client_id=124179859179-phbj0e3lqu096322h75m22p6peidi2sg.apps.googleusercontent.com";
+
     return (
         <LoginForm onSubmit={onSubmit}>
             <div>
@@ -84,7 +91,7 @@ const Login = () => {
                 <Input htmlFor="user-password" name="password" type="password" value={password} onChange={onChangeInputs} required />
             </div>
             <LoginFormButtonDiv>
-                <Link href="/signup">
+                <Link href={googleLoginUri}>
                     <a>
                         <Button type="button" color="pink">
                             회원가입
