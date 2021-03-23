@@ -21,7 +21,7 @@ const Menu = styled.header`
 
 const List = styled.ul`
     display: flex;
-    width: 100%;
+    width: 80%;
 `;
 
 const Item = styled.li`
@@ -47,7 +47,21 @@ const Item = styled.li`
 `;
 
 const UserIdDiv = styled.div`
-    width: 25%;
+    width: 45%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & a {
+        display: flex;
+    }
+
+    & button {
+        /* display: flex; */
+        margin-left: 5px;
+        margin-right: 5px;
+    }
 `;
 
 const SearchForm = styled.form`
@@ -109,6 +123,16 @@ const Header = () => {
         [searchText]
     );
 
+    const googleLoginUri =
+        process.env.NODE_ENV === "production"
+            ? "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=https://www.pigako.com/api/v1/auth/google/callback&response_type=code&client_id=124179859179-phbj0e3lqu096322h75m22p6peidi2sg.apps.googleusercontent.com"
+            : "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&redirect_uri=http://localhost:4000/api/v1/auth/google/callback&response_type=code&client_id=124179859179-phbj0e3lqu096322h75m22p6peidi2sg.apps.googleusercontent.com";
+
+    const kakaoLoginUri =
+        process.env.NODE_ENV === "production"
+            ? "https://kauth.kakao.com/oauth/authorize?client_id=b197c60616c231ede9dce343c372ff41&redirect_uri=https://www.pigako.com/api/v1/auth/kakao/callback&response_type=code"
+            : "https://kauth.kakao.com/oauth/authorize?client_id=b197c60616c231ede9dce343c372ff41&redirect_uri=http://localhost:4000/api/v1/auth/kakao/callback&response_type=code";
+
     return (
         <Menu>
             <List>
@@ -118,9 +142,33 @@ const Header = () => {
                     </Link>
                 </Item>
             </List>
-            {user?.userId && (
+            {user?.userName ? (
                 <UserIdDiv>
-                    <a>Welcome {user.userId}</a>
+                    <a>Welcome {user.userName}</a>
+                </UserIdDiv>
+            ) : (
+                <UserIdDiv>
+                    <Link href={googleLoginUri}>
+                        <a>
+                            <Button type="button" color="pink" size="large">
+                                Google
+                            </Button>
+                        </a>
+                    </Link>
+                    <Link href={kakaoLoginUri}>
+                        <a>
+                            <Button type="button" color="pink" size="large">
+                                Kakao
+                            </Button>
+                        </a>
+                    </Link>
+                    <Link href={googleLoginUri}>
+                        <a>
+                            <Button type="button" color="pink" size="large">
+                                GitHub
+                            </Button>
+                        </a>
+                    </Link>
                 </UserIdDiv>
             )}
             <SearchForm onSubmit={onSubmitSearch}>

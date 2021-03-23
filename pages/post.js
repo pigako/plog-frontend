@@ -20,6 +20,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     }
 
     context.store.dispatch({
+        type: LOAD_USERINFO_REQUEST
+    });
+
+    context.store.dispatch({
         type: LOAD_POST_REQUEST,
         data: context.query.id
     });
