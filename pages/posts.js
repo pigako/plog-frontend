@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { LOAD_POSTS_REQUEST } from "../reducers/post";
-import { LOAD_USERINFO_REQUEST } from "../reducers/user";
-import wrapper from "../store/configureStore";
-import { END } from "redux-saga";
-import { useSelector } from "react-redux";
-import PostCard from "../components/PostCard";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { END } from "redux-saga";
+
+import wrapper from "../store/configureStore";
+import PostCard from "../components/PostCard";
+import { LOAD_USERINFO_REQUEST } from "../reducers/user";
+import { LOAD_POSTS_REQUEST } from "../reducers/post";
 
 const PostList = styled.div`
     width: 100%;
@@ -27,8 +28,6 @@ const Posts = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookie = context.req ? context.req.headers.cookie : "";
-
-    console.log("posts.js server side props");
 
     axios.defaults.headers.Cookie = "";
     if (context.req && cookie) {

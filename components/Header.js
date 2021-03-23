@@ -133,6 +133,11 @@ const Header = () => {
             ? "https://kauth.kakao.com/oauth/authorize?client_id=b197c60616c231ede9dce343c372ff41&redirect_uri=https://www.pigako.com/api/v1/auth/kakao/callback&response_type=code"
             : "https://kauth.kakao.com/oauth/authorize?client_id=b197c60616c231ede9dce343c372ff41&redirect_uri=http://localhost:4000/api/v1/auth/kakao/callback&response_type=code";
 
+    const githubLoginUri =
+        process.env.NODE_ENV === "production"
+            ? "https://github.com/login/oauth/authorize?client_id=5d33653c6592d1b7992e&redirect_uri=https://www.pigako.com/api/v1/auth/github/callback&scope=user"
+            : "https://github.com/login/oauth/authorize?client_id=5d33653c6592d1b7992e&redirect_uri=http://localhost:4000/api/v1/auth/github/callback&scope=user";
+
     return (
         <Menu>
             <List>
@@ -162,7 +167,7 @@ const Header = () => {
                             </Button>
                         </a>
                     </Link>
-                    <Link href={googleLoginUri}>
+                    <Link href={githubLoginUri}>
                         <a>
                             <Button type="button" color="pink" size="large">
                                 GitHub
