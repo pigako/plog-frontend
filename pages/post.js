@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { END } from "redux-saga";
 
 import wrapper from "../store/configureStore";
+import { LOAD_USERINFO_REQUEST } from "../reducers/user";
 import { LOAD_POST_REQUEST } from "../reducers/post";
 
 const Post = () => {

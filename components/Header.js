@@ -138,6 +138,11 @@ const Header = () => {
             ? "https://github.com/login/oauth/authorize?client_id=5d33653c6592d1b7992e&redirect_uri=https://www.pigako.com/api/v1/auth/github/callback&scope=user"
             : "https://github.com/login/oauth/authorize?client_id=5d33653c6592d1b7992e&redirect_uri=http://localhost:4000/api/v1/auth/github/callback&scope=user";
 
+    const naverLoginUri =
+        process.env.NODE_ENV === "production"
+            ? "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bCmaAbnxz_yexGKwpaO1&redirect_uri=https://www.pigako.com/api/v1/auth/naver/callback&state=QWERQWERQWERQWER"
+            : "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=bCmaAbnxz_yexGKwpaO1&redirect_uri=http://localhost:4000/api/v1/auth/naver/callback&state=QWERQWERQWERQWER";
+
     return (
         <Menu>
             <List>
@@ -171,6 +176,13 @@ const Header = () => {
                         <a>
                             <Button type="button" color="pink" size="large">
                                 GitHub
+                            </Button>
+                        </a>
+                    </Link>
+                    <Link href={naverLoginUri}>
+                        <a>
+                            <Button type="button" color="pink" size="large">
+                                Naver
                             </Button>
                         </a>
                     </Link>
