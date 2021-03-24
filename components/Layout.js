@@ -7,11 +7,12 @@ import Login from "./Login";
 import { useSelector } from "react-redux";
 
 const Screen = styled.div`
-    height: 100%;
+    height: 90vh;
 `;
 
 const Contents = styled.div`
     width: 97%;
+    height: 100%;
     margin: 100px auto;
 `;
 
@@ -29,7 +30,7 @@ const RightContent = styled.div`
 
 const MainContent = styled.div`
     width: 60%;
-    height: 100px;
+    height: 100%;
     float: left;
 `;
 
@@ -43,7 +44,7 @@ const Layout = ({ children }) => {
         <Screen>
             <Header />
             <Contents>
-                <LeftContent>{isLoggedIn ? user.userId : <Login />}</LeftContent>
+                <LeftContent></LeftContent>
                 <MainContent>{children}</MainContent>
                 <RightContent></RightContent>
             </Contents>
