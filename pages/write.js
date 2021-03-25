@@ -1,12 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
-import showdown from "showdown";
-// import CodeMirror from "@uiw/react-codemirror";
-// import "codemirror/theme/meterial";
-
-function checkiOS() {
-    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-}
+import Helmet from "react-helmet";
 
 const Wrap = styled.div`
     height: 100%;
@@ -42,36 +36,27 @@ const PreviewContainer = styled.div`
 `;
 
 const Write = () => {
-    let editor;
-    let codeMirror;
+    const editorRef = useRef();
+    const [editorLoded, setEditorLoded] = useState(false);
+    const { CKEditor, ClassicEditor, CodeBlock } = editorRef.current || {};
+
     const [markdownText, setMarkdownText] = useState("");
     const [previewText, setPreviewText] = useState(markdownText);
-
-    const converter = new showdown.Converter();
 
     const onChangeMarkdownText = useCallback(
         (e) => {
             setMarkdownText(e.target.value);
-            setPreviewText(converter.makeHtml(e.target.value));
         },
-        [markdownText, converter]
+        [markdownText]
     );
 
     useEffect(() => {
-        const CodeMirror = require("codemirror");
-        codeMirror = CodeMirror.fromTextArea(editor, {
-            mode: "markdown",
-            theme: "material",
-            lineNumbers: false,
-            lineWrapping: true,
-            // scrollbarStyle: "overlay",
-            placeholder: "당신의 이야기를 적어보세요..."
-        });
-
-        // window.codeMirror = codeMirror;
-        codeMirror.on("change", onChangeCodeMirror);
-
-        codeMirror.toTextArea();
+        editorRef.current = {
+            CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
+            ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
+            CodeBlock: require("@ckeditor/ckeditor5-code-block/src/codeblock")
+        };
+        setEditorLoded(true);
     }, []);
 
     const onChangeCodeMirror = useCallback((e) => {}, []);
@@ -79,29 +64,49 @@ const Write = () => {
     useEffect(() => {
         console.log(markdownText);
         console.log(previewText);
-    }, [markdownText, previewText, editor, codeMirror]);
+    }, [markdownText, previewText]);
 
     return (
         <Wrap>
+            <Helmet>
+                <title>새 글</title>
+                <style type="text/css">
+                    {`
+                        
+                        .ck.ck-editor {width:100%;}
+                        .ck-content {
+                            line-height: 1.8rem;
+                        }
+                        .ck-editor__editable { }
+                    `}
+                </style>
+            </Helmet>
             <WriteContainer>
-                <WriteTextbox
-                    ref={(ref) => {
-                        editor = ref;
-                    }}
-                    onChange={onChangeMarkdownText}
-                    value={markdownText}
-                />
-                {/* <CodeMirror
-                    value={markdownText}
-                    options={{
-                        mode: "markdown",
-                        theme: "material",
-                        lineNumbers: false,
-                        lineWrapping: true,
-                        scrollbarStyle: "overlay",
-                        placeholder: "당신의 이야기를 적어보세요..."
-                    }}
-                /> */}
+                {editorLoded ? (
+                    <CKEditor
+                        editor={ClassicEditor}
+                        data={markdownText.toString()}
+                        config={{
+                            toolbar: ["heading", "|", "bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "codeBlock"],
+                            plugins: [CodeBlock],
+                            codeBlock: {
+                                languages: [
+                                    { language: "plaintext", label: "Plain text" },
+                                    { language: "css", label: "CSS" },
+                                    { language: "html", label: "HTML" },
+                                    { language: "javascript", label: "JavaScript" },
+                                    { language: "typescript", label: "TypeScript" }
+                                ]
+                            }
+                        }}
+                        onChange={(event, ckeditor) => {
+                            const data = ckeditor.getData();
+                            setMarkdownText(data);
+                        }}
+                    />
+                ) : (
+                    <p></p>
+                )}
             </WriteContainer>
             <PreviewContainer dangerouslySetInnerHTML={{ __html: previewText }}></PreviewContainer>
         </Wrap>
