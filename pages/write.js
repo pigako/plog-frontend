@@ -1,6 +1,19 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
+import axios from "axios";
+import { END } from "redux-saga";
+import { makeStyles } from "@material-ui/styles";
+
+import wrapper from "../store/configureStore";
+import { LOAD_USERINFO_REQUEST } from "../reducers/user";
+import hljs from "highlight.js";
+import "highlight.js/styles/atom-one-dark.css";
+
+import dynamic from "next/dynamic";
+const Editor = dynamic(() => import("../components/Editor"), {
+    ssr: false
+});
 
 const Wrap = styled.div`
     height: 100%;
@@ -15,102 +28,96 @@ const WriteContainer = styled.div`
     width: 50%;
 `;
 
-const WriteTextbox = styled.textarea`
-    width: 100% !important;
-    height: 100% !important;
-
-    font-size: 1.2rem;
-
-    padding: 10px 20px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #e8e8e8;
-    resize: none;
-`;
-
 const PreviewContainer = styled.div`
     height: 100%;
     width: 50%;
 
     padding: 10px 20px;
+
+    & > {
+        blockquote {
+            line-height: 1.8rem;
+            margin-left: 0px;
+            margin-right: 0px;
+            padding: 15px 15px;
+            border-left: 10px solid #27a9e3;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        h3 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        p {
+        }
+    }
 `;
 
 const Write = () => {
-    const editorRef = useRef();
-    const [editorLoded, setEditorLoded] = useState(false);
-    const { CKEditor, ClassicEditor, CodeBlock } = editorRef.current || {};
-
     const [markdownText, setMarkdownText] = useState("");
     const [previewText, setPreviewText] = useState(markdownText);
 
     const onChangeMarkdownText = useCallback(
-        (e) => {
-            setMarkdownText(e.target.value);
+        (e, editor) => {
+            const data = editor.getData();
+            setMarkdownText(data);
         },
         [markdownText]
     );
 
-    useEffect(() => {
-        editorRef.current = {
-            CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
-            ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
-            CodeBlock: require("@ckeditor/ckeditor5-code-block/src/codeblock")
-        };
-        setEditorLoded(true);
-    }, []);
-
     const onChangeCodeMirror = useCallback((e) => {}, []);
+
+    useEffect(() => {
+        hljs.highlightAll();
+    }, [previewText]);
 
     useEffect(() => {
         console.log(markdownText);
         console.log(previewText);
+        setPreviewText(markdownText);
+
+        // hljs.highlightAll();
     }, [markdownText, previewText]);
+
+    const testCode = `<script></script>`;
 
     return (
         <Wrap>
             <Helmet>
                 <title>새 글</title>
-                <style type="text/css">
-                    {`
-                        
-                        .ck.ck-editor {width:100%;}
-                        .ck-content {
-                            line-height: 1.8rem;
-                        }
-                        .ck-editor__editable { }
-                    `}
-                </style>
             </Helmet>
             <WriteContainer>
-                {editorLoded ? (
-                    <CKEditor
-                        editor={ClassicEditor}
-                        data={markdownText.toString()}
-                        config={{
-                            toolbar: ["heading", "|", "bold", "italic", "link", "bulletedList", "numberedList", "blockQuote", "codeBlock"],
-                            plugins: [CodeBlock],
-                            codeBlock: {
-                                languages: [
-                                    { language: "plaintext", label: "Plain text" },
-                                    { language: "css", label: "CSS" },
-                                    { language: "html", label: "HTML" },
-                                    { language: "javascript", label: "JavaScript" },
-                                    { language: "typescript", label: "TypeScript" }
-                                ]
-                            }
-                        }}
-                        onChange={(event, ckeditor) => {
-                            const data = ckeditor.getData();
-                            setMarkdownText(data);
-                        }}
-                    />
-                ) : (
-                    <p></p>
-                )}
+                <Editor text={markdownText} onChange={onChangeMarkdownText} />
             </WriteContainer>
             <PreviewContainer dangerouslySetInnerHTML={{ __html: previewText }}></PreviewContainer>
         </Wrap>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookie = context.req ? context.req.headers.cookie : "";
+
+    axios.defaults.headers.Cookie = "";
+    if (context.req && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    }
+
+    context.store.dispatch({
+        type: LOAD_USERINFO_REQUEST
+    });
+
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+});
 
 export default Write;
