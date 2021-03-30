@@ -87,6 +87,7 @@ export default class Editor extends Component {
                                 TextTransformation,
                                 CodeBlock
                             ],
+                            placeholder: "본문을 입력해주세요...",
                             toolbar: [
                                 "heading",
                                 "|",
@@ -116,7 +117,6 @@ export default class Editor extends Component {
                                 "indentCodeBlock",
                                 "codeBlock"
                             ],
-
                             heading: {
                                 options: [
                                     {
@@ -166,10 +166,7 @@ export default class Editor extends Component {
                             }
                         }}
                         data={this.props.text}
-                        onReady={(editor) => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log("Editor1 is ready to use!", editor);
-                        }}
+                        onReady={(editor) => {}}
                         onChange={this.props.onChange}
                     />
                 </CKEditorContext>

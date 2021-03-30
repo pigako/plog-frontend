@@ -12,6 +12,8 @@ function Plog({ Component, pageProps }) {
             <Head>
                 <title>Plog</title>
                 <link rel="icon" href="/favicon.ico" />
+                {/* <script>{(window.dyc = { "chatbotUid": "ea9191c702e349d5" })}</script>
+                <script async src="https://cloudturing.chat/v1.0/chat.js"></script> */}
             </Head>
             <Layout>
                 <Component {...pageProps} />

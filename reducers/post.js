@@ -2,7 +2,8 @@ import produce from "immer";
 
 export const initialState = {
     posts: [],
-    post: {}
+    post: {},
+    isAddingPost: false
 };
 
 export const LOAD_POSTS_REQUEST = `LOAD_POSTS_REQUEST`;
@@ -12,6 +13,10 @@ export const LOAD_POSTS_FAILURE = `LOAD_POSTS_FAILURE`;
 export const LOAD_POST_REQUEST = `LOAD_POST_REQUEST`;
 export const LOAD_POST_SUCCESS = `LOAD_POST_SUCCESS`;
 export const LOAD_POST_FAILURE = `LOAD_POST_FAILURE`;
+
+export const CREATE_POST_REQUEST = `CREATE_POST_REQUEST`;
+export const CREATE_POST_SUCCESS = `CREATE_POST_SUCCESS`;
+export const CREATE_POST_FAILURE = `CREATE_POST_FAILURE`;
 
 const reduce = (state = initialState, action) => {
     return produce(state, (draft) => {
@@ -41,6 +46,24 @@ const reduce = (state = initialState, action) => {
             }
             case LOAD_POST_FAILURE: {
                 draft.post = {};
+                break;
+            }
+
+            case CREATE_POST_REQUEST: {
+                draft.isAddingPost = true;
+                break;
+            }
+            case CREATE_POST_SUCCESS: {
+                draft.isAddingPost = false;
+                break;
+            }
+            case CREATE_POST_FAILURE: {
+                draft.isAddingPost = false;
+                break;
+            }
+
+            default: {
+                console.log(action);
                 break;
             }
         }

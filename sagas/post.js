@@ -1,6 +1,6 @@
 import { call, put, takeLatest, fork, all } from "redux-saga/effects";
 import axios from "axios";
-import { LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE, LOAD_POST_REQUEST, LOAD_POST_FAILURE, LOAD_POST_SUCCESS } from "../reducers/post";
+import { LOAD_POSTS_REQUEST, LOAD_POSTS_SUCCESS, LOAD_POSTS_FAILURE, LOAD_POST_REQUEST, LOAD_POST_FAILURE, LOAD_POST_SUCCESS, CREATE_POST_REQUEST, CREATE_POST_FAILURE, CREATE_POST_SUCCESS } from "../reducers/post";
 
 function* watchLoadPosts() {
     yield takeLatest(LOAD_POSTS_REQUEST, function* loadPosts(action) {
@@ -52,6 +52,30 @@ function* watchLoadPost() {
     });
 }
 
+function* watchCreatePost() {
+    yield takeLatest(CREATE_POST_REQUEST, function* createPost(action) {
+        try {
+            const result = yield call((data) => {
+                return axios.post(`posts`, {
+                    withCredentials: true
+                });
+            }, action.data);
+            console.log(result.data);
+
+            if (!result.data.data) {
+                throw new Error();
+            }
+
+            yield put({
+                type: CREATE_POST_SUCCESS
+            });
+        } catch (error) {
+            console.error(error);
+            put({ type: CREATE_POST_FAILURE, error: error });
+        }
+    });
+}
+
 export default function* postSaga() {
-    yield all([fork(watchLoadPosts), fork(watchLoadPost)]);
+    yield all([fork(watchLoadPosts), fork(watchLoadPost), fork(watchCreatePost)]);
 }
