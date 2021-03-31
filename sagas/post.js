@@ -55,10 +55,18 @@ function* watchLoadPost() {
 function* watchCreatePost() {
     yield takeLatest(CREATE_POST_REQUEST, function* createPost(action) {
         try {
+            console.log(action.data);
             const result = yield call((data) => {
-                return axios.post(`posts`, {
-                    withCredentials: true
-                });
+                return axios.post(
+                    `posts`,
+                    {
+                        title: data.title,
+                        contents: data.contents
+                    },
+                    {
+                        withCredentials: true
+                    }
+                );
             }, action.data);
             console.log(result.data);
 

@@ -11,7 +11,7 @@ import { LOAD_POSTS_REQUEST } from "../reducers/post";
 
 const PostList = styled.div`
     width: 100%;
-    height: 400px;
+    height: 100%;
 `;
 
 const Posts = () => {

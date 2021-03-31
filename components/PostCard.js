@@ -3,6 +3,8 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 
 const Card = styled.div`
+    height: 20%;
+
     border: solid 1px black;
     border-radius: 5px;
 
@@ -26,6 +28,8 @@ const CardHeader = styled.a`
     font-size: 2rem;
     font-weight: bold;
 
+    height: 20%;
+
     text-decoration: none;
 
     display: inline-block;
@@ -35,6 +39,9 @@ const CardHeader = styled.a`
 const CardImage = styled.image``;
 
 const CardContents = styled.div`
+    /* height: 50%; */
+    height: 70%;
+    overflow: hidden;
     font-size: 1.2rem;
 
     text-decoration: none;
@@ -42,6 +49,7 @@ const CardContents = styled.div`
 `;
 
 const CardInfo = styled.div`
+    height: 10%;
     font-size: 0.8rem;
     color: gray;
 
@@ -59,7 +67,7 @@ const PostCard = ({ post }) => {
     return (
         <Card onClick={onClickPostCard}>
             <CardHeader>{post.title}</CardHeader>
-            <CardContents>{post.contents}</CardContents>
+            <CardContents dangerouslySetInnerHTML={{ __html: post.contents }}></CardContents>
             <CardInfo>
                 작성일: {new Date(post.createdAt).toLocaleDateString("ko", { hour: "numeric", minute: "numeric" })} | 조회: {post.lookup} | 댓글: {post.comments?.length}
             </CardInfo>

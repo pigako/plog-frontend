@@ -8,8 +8,6 @@ import { useRouter } from "next/router";
 
 import wrapper from "../store/configureStore";
 import { LOAD_USERINFO_REQUEST } from "../reducers/user";
-import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css";
 import Button from "../components/designs/Button";
 
 import dynamic from "next/dynamic";
@@ -138,19 +136,24 @@ const Write = () => {
         router.push({ pathname: "/blog/posts" });
     }, []);
 
-    const onSubmit = useCallback((e) => {
-        e.preventDefault();
+    const onSubmit = useCallback(
+        (e) => {
+            e.preventDefault();
 
-        dispatch({
-            type: CREATE_POST_REQUEST,
-            data: {
-                title: postTitle,
-                contents: postContents
-            }
-        });
+            console.log(postTitle, postContents);
 
-        // router.push({ pathname: "/blog/posts" });
-    }, []);
+            dispatch({
+                type: CREATE_POST_REQUEST,
+                data: {
+                    title: postTitle,
+                    contents: postContents
+                }
+            });
+
+            router.push({ pathname: "/blog/posts" });
+        },
+        [postTitle, postContents]
+    );
 
     // useEffect(() => {
     //     hljs.highlightAll();

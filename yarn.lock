@@ -4287,6 +4287,11 @@
   "resolved" "https://registry.npmjs.org/highlight.js/-/highlight.js-10.7.1.tgz"
   "version" "10.7.1"
 
+"highlightjs-line-numbers.js@2.8.0":
+  "integrity" "sha512-TEf1gw0c8mb8nan0QwliqS7obT4cpUd9hzsGzsZLweteNnWea/VIqy5/aQqsa5wnz9lnvmtAkS1ZtDTjB/goYQ=="
+  "resolved" "https://registry.npmjs.org/highlightjs-line-numbers.js/-/highlightjs-line-numbers.js-2.8.0.tgz"
+  "version" "2.8.0"
+
 "hmac-drbg@^1.0.1":
   "integrity" "sha1-0nRXAQJabHdabFRXk+1QL8DGSaE="
   "resolved" "https://registry.npmjs.org/hmac-drbg/-/hmac-drbg-1.0.1.tgz"
