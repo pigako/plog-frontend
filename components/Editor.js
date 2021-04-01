@@ -30,8 +30,9 @@ import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar";
 import TextTransformation from "@ckeditor/ckeditor5-typing/src/texttransformation";
 import Indent from "@ckeditor/ckeditor5-indent/src/indent";
 import IndentBlock from "@ckeditor/ckeditor5-indent/src/indentblock";
-import Base64UploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter";
+// import Base64UploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter";
 
+import SimpleUploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter";
 import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
 
 const Wrap = styled.div`
@@ -81,11 +82,11 @@ export default class Editor extends Component {
                                 ImageToolbar,
                                 ImageUpload,
                                 ImageResize,
-                                Base64UploadAdapter,
                                 Table,
                                 TableToolbar,
                                 TextTransformation,
-                                CodeBlock
+                                CodeBlock,
+                                SimpleUploadAdapter
                             ],
                             placeholder: "본문을 입력해주세요...",
                             toolbar: [
@@ -117,6 +118,16 @@ export default class Editor extends Component {
                                 "indentCodeBlock",
                                 "codeBlock"
                             ],
+                            simpleUpload: {
+                                // The URL that the images are uploaded to.
+                                uploadUrl: "https://www.pigako.com/api/v1/file/upload/image",
+
+                                // Enable the XMLHttpRequest.withCredentials property.
+                                withCredentials: true,
+
+                                // Headers sent along with the XMLHttpRequest to the upload server.
+                                headers: {}
+                            },
                             heading: {
                                 options: [
                                     {
