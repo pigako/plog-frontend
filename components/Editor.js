@@ -120,7 +120,7 @@ export default class Editor extends Component {
                             ],
                             simpleUpload: {
                                 // The URL that the images are uploaded to.
-                                uploadUrl: "https://www.pigako.com/api/v1/file/upload/image",
+                                uploadUrl: process.env.NODE_ENV === "production" ? "https://www.pigako.com/api/v1/file/upload/image" : "http://localhost:4000/api/v1/file/upload/image",
 
                                 // Enable the XMLHttpRequest.withCredentials property.
                                 withCredentials: true,
