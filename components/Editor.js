@@ -30,7 +30,6 @@ import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar";
 import TextTransformation from "@ckeditor/ckeditor5-typing/src/texttransformation";
 import Indent from "@ckeditor/ckeditor5-indent/src/indent";
 import IndentBlock from "@ckeditor/ckeditor5-indent/src/indentblock";
-// import Base64UploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter";
 
 import SimpleUploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter";
 import CodeBlock from "@ckeditor/ckeditor5-code-block/src/codeblock";
@@ -119,13 +118,8 @@ export default class Editor extends Component {
                                 "codeBlock"
                             ],
                             simpleUpload: {
-                                // The URL that the images are uploaded to.
                                 uploadUrl: process.env.NODE_ENV === "production" ? "https://www.pigako.com/api/v1/file/upload/image" : "http://localhost:4000/api/v1/file/upload/image",
-
-                                // Enable the XMLHttpRequest.withCredentials property.
                                 withCredentials: true,
-
-                                // Headers sent along with the XMLHttpRequest to the upload server.
                                 headers: {}
                             },
                             heading: {
